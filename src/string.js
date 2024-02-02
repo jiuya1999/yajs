@@ -16,13 +16,13 @@ function getFun(str) {
     return new Function(matches[2], matches[3])
 }
 function getArrowFun(str) {
-    var matches = str.match(/\((.*?)\)\s*=>\s*{([\s\S]*)}/)
+    let matches = str.match(/\((.*?)\)\s*=>\s*{([\s\S]*)}/)
     return new Function(matches[1], matches[2])
 }
 
 function setObj(obj, indexList, list) {
-    var k = Object.keys(obj), cope = {};
-    for (var i = k.length - 1; i>=0;i--) {
+    let k = Object.keys(obj), cope = {};
+    for (let i = k.length - 1; i>=0;i--) {
         const key = k[i]
         cope[key] = copyValue(obj[key],key , indexList, list)
     }
@@ -30,8 +30,8 @@ function setObj(obj, indexList, list) {
 }
 
 function setArray(arr, indexList, list) {
-    var l = arr.length, cope = [];
-    for(var i = 0;i < l;i++ ) {
+    let l = arr.length, cope = [];
+    for(let i = 0;i < l;i++ ) {
         cope[i] = copyValue(arr[i], i, indexList, list )
     }
     return cope
@@ -97,9 +97,9 @@ function parse(str) {
     if (v.type !== 'ya') return {}
     const value = v.value
     const list = v.indexList ?? []
-    for (var i = list.length - 1; i >= 0;i--) {
-        var s = value, k = list[i].split(','), l = k.length
-        for (var j = 0; j <= l - 3; j++) {
+    for (let i = list.length - 1; i >= 0;i--) {
+        let s = value, k = list[i].split(','), l = k.length
+        for (let j = 0; j <= l - 3; j++) {
             s = s[k[j]]
         }
         s[k[k.length - 2]] = getSwitch(k[l-1])(s[k[l - 2]])

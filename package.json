@@ -1,8 +1,8 @@
 {
-  "name": "ya",
+  "name": "yajs",
   "version": "0.0.1",
   "description": "A string serialization library that supports undefined, Function, RegExp, and other types",
-  "main": "string.js",
+  "main": "build/ya.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
