@@ -115,22 +115,23 @@ function parse(str) {
     const v = JSON.parse(str)
     if (v.type !== 'ya') return {}
     const value = v.value
-    const list = v.valueList ?? []
-    const keyList = v.keyList ?? []
-    for (let i = list.length - 1; i >= 0;i--) {
-        let s = value, k = list[i].split(','), l = k.length
-        for (let j = 0; j <= l - 3; j++) s = s[k[j]]
+    set(value, v.valueList ?? [], (k, s, l) => {
         const key = k[k.length - 2]
         s[key] = getSwitch(k[l-1])(s[k[l - 2]])
-    }
-    for (let i = keyList.length - 1; i >= 0;i--) {
-        let s = value, k = keyList[i].split(','), l = k.length
-        for (let j = 0; j <= l - 3; j++) s = s[k[j]]
+    })
+    set(value, v.keyList ?? [], (k, s) => {
         const key = k[k.length - 2]
         s[Symbol.for(key)] = s[key]
         delete s[key]
-    }
+    })
     return value;
+    function set(value, list, callback) {
+        for (let listIndex = list.length - 1; listIndex >= 0;listIndex--) {
+            let val = value, keyList = list[listIndex].split(','), keyListLength = keyList.length
+            for (let j = 0; j <= keyListLength - 3; j++) val = val[keyList[j]]
+            callback(keyList, val, keyListLength)
+        }
+    }
 }
 
 window.ya = {
