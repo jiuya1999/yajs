@@ -20,19 +20,25 @@ function getArrowFun(str) {
     return new Function(matches[1], matches[2])
 }
 
-function setObj(obj, indexList, list) {
+function setObj(obj, valueList, list, keyList) {
     let k = Object.keys(obj), cope = {};
     for (let i = k.length - 1; i>=0;i--) {
         const key = k[i]
-        cope[key] = copyValue(obj[key],key , indexList, list)
+        cope[key] = copyValue(obj[key],key , valueList, list, keyList)
+    }
+    let h = Object.getOwnPropertySymbols(obj)
+    for (let i = h.length - 1; i>=0;i--) {
+        const key = h[i].description
+        keyList.push(`${list ? (list + ','): ''}${key},Symbol`)
+        cope[key] = copyValue(obj[h[i]], key , valueList, list, keyList)
     }
     return cope
 }
 
-function setArray(arr, indexList, list) {
+function setArray(arr, valueList, list, keyList) {
     let l = arr.length, cope = [];
     for(let i = 0;i < l;i++ ) {
-        cope[i] = copyValue(arr[i], i, indexList, list )
+        cope[i] = copyValue(arr[i], i, valueList, list, keyList )
     }
     return cope
 }
@@ -45,28 +51,35 @@ function getUndefined() {
     return undefined
 }
 
+function getSymbol(value) {
+    return Symbol.for(value)
+}
+
 const typeList = ['String', 'Number', 'Null', 'Boolean']
 
 
-function copyValue (value, cur, indexList, list) {
+function copyValue (value, cur, valueList, list, keyList) {
     list = list ? `${list},${cur}` : cur
     const type = getType(value)
     if (typeList.includes(type)) return value;
     switch (type) {
         case 'Object':
-            return setObj(value, indexList, list);
+            return setObj(value, valueList, list, keyList);
         case 'Array':
-            return setArray(value, indexList, list);
+            return setArray(value, valueList, list, keyList);
         case 'Function':
             const t = isArrowFunction(value)
-            indexList.push(`${list},${t}Function`)
+            valueList.push(`${list},${t}Function`)
             return value.toString();
         case 'RegExp':
-            indexList.push(`${list},RegExp`)
+            valueList.push(`${list},RegExp`)
             return /(.+)\/(.+)/.exec(value.toString().slice(1)).slice(1, 3);
         case  'Undefined':
-            indexList.push(`${list},Undefined`)
+            valueList.push(`${list},Undefined`)
             return undefined
+        case  'Symbol':
+            valueList.push(`${list},Symbol`)
+            return value.description
     }
 }
 
@@ -80,14 +93,20 @@ function getSwitch(type){
             return getRegExp
         case 'Undefined':
             return getUndefined
+        case 'Symbol':
+            return getSymbol
     }
 }
 
 function string(obj) {
-    const indexList = []
+    const valueList = []
+    const keyList = []
+    const copy = copyValue(obj, '', valueList, '', keyList)
+    console.log(copy,valueList, keyList, 'over')
     return JSON.stringify({
-        value: copyValue(obj, '', indexList, ''),
-        indexList,
+        value: copy,
+        valueList,
+        keyList,
         type: 'ya'
     })
 }
@@ -96,13 +115,20 @@ function parse(str) {
     const v = JSON.parse(str)
     if (v.type !== 'ya') return {}
     const value = v.value
-    const list = v.indexList ?? []
+    const list = v.valueList ?? []
+    const keyList = v.keyList ?? []
     for (let i = list.length - 1; i >= 0;i--) {
         let s = value, k = list[i].split(','), l = k.length
-        for (let j = 0; j <= l - 3; j++) {
-            s = s[k[j]]
-        }
-        s[k[k.length - 2]] = getSwitch(k[l-1])(s[k[l - 2]])
+        for (let j = 0; j <= l - 3; j++) s = s[k[j]]
+        const key = k[k.length - 2]
+        s[key] = getSwitch(k[l-1])(s[k[l - 2]])
+    }
+    for (let i = keyList.length - 1; i >= 0;i--) {
+        let s = value, k = keyList[i].split(','), l = k.length
+        for (let j = 0; j <= l - 3; j++) s = s[k[j]]
+        const key = k[k.length - 2]
+        s[Symbol.for(key)] = s[key]
+        delete s[key]
     }
     return value;
 }

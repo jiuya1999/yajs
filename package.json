@@ -1,5 +1,5 @@
 {
-  "name": "yajs",
+  "name": "ya",
   "version": "0.0.1",
   "description": "A string serialization library that supports undefined, Function, RegExp, and other types",
   "main": "build/ya.min.js",

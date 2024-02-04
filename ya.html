@@ -9,7 +9,7 @@
 <script>
     const obj = {
         a: true,
-        b: [1, 2, 3],
+        b: [1, 2, 3, Symbol.for('apple')],
         c: {
             d: 1,
             e: ({name,    age})    => {
@@ -25,10 +25,14 @@
         },
         g: /123/g,
         i: undefined,
-        j: null
+        j: null,
+        [Symbol.for('apple')]: Symbol.for('apple'),
+        [Symbol.for('pig')]: {
+            pig: 15
+        }
     }
     const co = ya.string(obj)
-    console.log(co)
+    console.log(co, 'co')
     const copy = ya.parse(co)
     console.log(copy)
 </script>
