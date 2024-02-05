@@ -30,6 +30,14 @@ function set(value, list, callback) {
     }
 }
 
+function get(value, keyList, num) {
+    let v = value, l = keyList.length + num;
+    for (let i = 0 ; i < l; i++ ) {
+        v = v[keyList[i]]
+    }
+    return v
+}
+
 export default function parse(str) {
     const v = JSON.parse(str)
     if (v.type !== 'ya') return {}
@@ -43,5 +51,11 @@ export default function parse(str) {
         s[Symbol.for(key)] = s[key]
         delete s[key]
     })
+    v.loopList.map(item => {
+        const [keyList, valueList] = item.split('|').map(i => i.split(','))
+        get(value, keyList, -1)[keyList.length - 1] = get(value, valueList, 0)
+
+    })
+
     return value;
 }

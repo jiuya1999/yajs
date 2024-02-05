@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>yajs</title>
     <script src="build/ya.min.js"></script>
 </head>
 <body>
-<script>
+<code style="white-space: pre-wrap">
     const obj = {
         a: true,
-        b: [1, 2, 3, Symbol.for('apple')],
+        b: [1, 2, obj.c, Symbol.for('apple')],
         c: {
-            d: 1,
-            e: ({name,    age})    => {
+            d: obj.b,
+            e: ({name, age}) => {
                 console.log(name, age)
             },
-            h: (...arr) =>      {
+            h: (...arr) => {
                 console.log(arr)
             }
         },
-        f  (   )   {
+        f() {
             const c = 3
             console.log(1, this, this.a, c)
         },
@@ -35,7 +35,39 @@
     console.log(co, 'co')
     const copy = ya.parse(co)
     console.log(copy, 'copy')
-    const end = Date.now()
+</code>
+<script>
+    const obj = {
+        a: true,
+        b: [1, 2, 3, Symbol.for('apple')],
+        c: {
+            d: 4,
+            e: ({name, age}) => {
+                console.log(name, age)
+            },
+            h: (...arr) => {
+                console.log(arr)
+            }
+        },
+        f() {
+            const c = 3
+            console.log(1, this, this.a, c)
+        },
+        g: /123/g,
+        i: undefined,
+        j: null,
+        [Symbol.for('apple')]: Symbol.for('apple'),
+        [Symbol.for('pig')]: {
+            pig: 15
+        }
+    }
+    obj.b[2] = obj.c
+    obj.c.d = obj.b
+    console.log(obj)
+    const co = ya.string(obj)
+    console.log(co, 'co')
+    const copy = ya.parse(co)
+    console.log(copy, 'copy')
 </script>
 </body>
 </html>
