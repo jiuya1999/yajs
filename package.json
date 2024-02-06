@@ -1,6 +1,6 @@
 {
-  "name": "ya",
-  "version": "0.0.1",
+  "name": "@jiuya/ya",
+  "version": "1.0.0",
   "description": "A string serialization library that supports undefined, Function, RegExp, and other types",
   "main": "src/main.js",
   "scripts": {
@@ -24,5 +24,9 @@
     "grunt-contrib-uglify": "~0.5.0",
     "grunt-webpack": "^6.0.0",
     "webpack": "^5.90.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/jiuya1999/yajs"
   }
 }
