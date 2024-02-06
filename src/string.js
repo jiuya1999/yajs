@@ -1,4 +1,4 @@
-import {getType, isArrowFunction} from "./utils/utils";
+import {getType} from "./utils/utils";
 
 const typeList = ['String', 'Number', 'Null', 'Boolean']
 
@@ -45,9 +45,9 @@ function copyValue(value, cur, valueList, list, keyList,loopMap, loopList) {
         case 'Array':
             return setArray(value, valueList, list, keyList,loopMap, loopList);
         case 'Function':
-            const t = isArrowFunction(value)
-            valueList.push(`${list},${t}Function`)
-            return value.toString();
+            valueList.push(`${list},Function`)
+            let str = value.toString(), name = value.name
+            return  str.startsWith(name) ? str.replace(name, 'function') : str
         case 'RegExp':
             valueList.push(`${list},RegExp`)
             return [value.source, value.flags];

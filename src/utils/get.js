@@ -1,7 +1,6 @@
 
 export function getFun(str) {
-    const matches = str.match(/(\w+)\s*\(([^)]*)\)\s*{([^]*)}/);
-    return new Function(matches[2], matches[3])
+    return new Function(`return ${str}`)()
 }
 export function getArrowFun(str) {
     let matches = str.match(/\((.*?)\)\s*=>\s*{([\s\S]*)}/)
