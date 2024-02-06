@@ -34,12 +34,6 @@ module.exports = function (grunt) {
                         {
                             test: /\.m?js$/,
                             exclude: /(node_modules|bower_components)/,
-                            // use: {
-                            //     loader: 'babel-loader',
-                            //     options: {
-                            //         presets: ['@babel/preset-env']
-                            //     }
-                            // }
                         }
                     ]
                 }
@@ -47,14 +41,30 @@ module.exports = function (grunt) {
             dist: { // 这里可以定义多个任务，例如 dist、dev 等，然后在命令行通过 grunt webpack:dist 来运行
                 // 这里可以直接覆盖或者添加 options 里的配置
             }
-        }
+        },
+        watch: {
+            scripts: {
+                files: ['src/*.js'], // 监听所有 JS 文件的变化
+                tasks: ['webpack', 'babel', 'uglify'], // 文件变化时执行的任务
+                options: {
+                    spawn: false,
+                },
+            },
+            js: {
+                files: ['**/*.js'], // 监听所有 JS 文件的变化
+                tasks: ['webpack', 'babel', 'uglify'], // 文件变化时执行的任务
+            },
+            options: {
+                livereload: true // 监听文件变化时自动刷新页面
+            },
+        },
     });
     grunt.loadNpmTasks('grunt-webpack');
     // 加载包含 "uglify" 和 "babel" 任务的插件。
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-
+    grunt.loadNpmTasks('grunt-contrib-watch');
     // 默认被执行的任务列表。
     // 修改此处的任务列表，确保 "babel" 在 "uglify" 之前执行。
-    grunt.registerTask('default', ['webpack', 'babel', 'uglify']);
+    grunt.registerTask('default', ['webpack', 'babel', 'uglify', 'watch']);
 };

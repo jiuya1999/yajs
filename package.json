@@ -17,7 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
-    "grunt": "^1.5.3",
+    "grunt": "^1.6.1",
     "grunt-babel": "^8.0.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
@@ -28,5 +28,8 @@
   "repository": {
     "type": "git",
     "url": "git@github.com/jiuya1999/yajs"
+  },
+  "dependencies": {
+    "grunt-contrib-watch": "^1.1.0"
   }
 }
