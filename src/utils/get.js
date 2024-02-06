@@ -1,6 +1,11 @@
 
 export function getFun(str) {
-    return new Function(str)()
+    const matches = str.match(/(\w+)\s*\(([^)]*)\)\s*{([^]*)}/);
+    return new Function(matches[2], matches[3])
+}
+export function getArrowFun(str) {
+    let matches = str.match(/\((.*?)\)\s*=>\s*{([\s\S]*)}/)
+    return new Function(matches[1], matches[2])
 }
 
 export function getRegExp(value) {
