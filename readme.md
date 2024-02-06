@@ -1,7 +1,19 @@
-一个支持`undefined`,`function`,`symbol` 的 javascript 序列化库。
+一个支持 `undefined`,`function`,`symbol` 和循环引用 的 javascript 序列化库。
 全局导出 `ya.string()` 和 `ya.parse()`
+
+安装：
+```shell
+npm i @jiuya/ya
+```
+
+引入：
 ```js
-        const obj = {
+import {parse, string} from '@jiuya/ya'
+import ya from '@jiuya/ya'
+```
+使用：
+```js
+const obj = {
     a: true,
     b: [1, 2, 3, Symbol.for('apple')],
     c: {

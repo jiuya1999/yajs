@@ -1,6 +1,6 @@
 {
-  "name": "ya",
-  "version": "0.0.1",
+  "name": "@jiuya/ya",
+  "version": "1.0.0",
   "description": "A string serialization library that supports undefined, Function, RegExp, and other types",
   "main": "src/main.js",
   "scripts": {

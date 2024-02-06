@@ -23,11 +23,11 @@ export function setObj(obj, valueList, list, keyList,loopMap, loopList) {
 }
 
 export function setArray(arr, valueList, list, keyList,loopMap, loopList) {
-    if (loopMap.get(obj)) {
-        loopList.push(list + '|' + loopMap.get(obj))
-        return loopMap.get(obj);
+    if (loopMap.get(arr)) {
+        loopList.push(list + '|' + loopMap.get(arr))
+        return loopMap.get(arr);
     }
-    loopMap.set(obj, list)
+    loopMap.set(arr, list)
     let l = arr.length, cope = [];
     for (let i = 0; i < l; i++) {
         cope[i] = copyValue(arr[i], i, valueList, list, keyList,loopMap, loopList)
