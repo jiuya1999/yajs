@@ -45,8 +45,7 @@ function copyValue(value, cur, valueList, list, keyList,loopMap, loopList) {
         case 'Array':
             return setArray(value, valueList, list, keyList,loopMap, loopList);
         case 'Function':
-            const t = isArrowFunction(value)
-            valueList.push(`${list},${t}Function`)
+            valueList.push(`${list},Function`)
             return value.toString();
         case 'RegExp':
             valueList.push(`${list},RegExp`)

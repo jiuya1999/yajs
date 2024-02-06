@@ -1,5 +1,4 @@
 import {
-    getArrowFun,
     getFun,
     getSymbol,
     getUndefined,
@@ -9,9 +8,7 @@ import {
 
 function getSwitch(type) {
     switch (type) {
-        case 'trueFunction':
-            return getArrowFun;
-        case 'falseFunction':
+        case 'Function':
             return getFun;
         case 'RegExp':
             return getRegExp
@@ -40,7 +37,7 @@ function get(value, keyList, num) {
 
 export default function parse(str) {
     const v = JSON.parse(str)
-    if (v.type !== 'ya') return {}
+    if (v.type !== 'ya') return new Error('请传入由ya,string()生成的字符串!')
     const value = v.value
     set(value, v.valueList ?? [], (k, s, l) => {
         const key = k[k.length - 2]
@@ -53,8 +50,7 @@ export default function parse(str) {
     })
     v.loopList.map(item => {
         const [keyList, valueList] = item.split('|').map(i => i.split(','))
-        get(value, keyList, -1)[keyList.length - 1] = get(value, valueList, 0)
-
+        get(value, keyList, -1)[[keyList[keyList.length - 1]]] = get(value, valueList, 0)
     })
 
     return value;
