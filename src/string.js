@@ -45,12 +45,11 @@ function copyValue(value, cur, valueList, list, keyList,loopMap, loopList) {
         case 'Array':
             return setArray(value, valueList, list, keyList,loopMap, loopList);
         case 'Function':
-            const t = isArrowFunction(value)
-            valueList.push(`${list},${t}Function`)
+            valueList.push(`${list},Function`)
             return value.toString();
         case 'RegExp':
             valueList.push(`${list},RegExp`)
-            return /(.+)\/(.+)/.exec(value.toString().slice(1)).slice(1, 3);
+            return [value.source, value.flags];
         case  'Undefined':
             valueList.push(`${list},Undefined`)
             return undefined
@@ -62,6 +61,7 @@ function copyValue(value, cur, valueList, list, keyList,loopMap, loopList) {
 
 
 export default function string(obj) {
+    console.log(100)
     const valueList = []
     const keyList = []
     const loopList = []

@@ -1,5 +1,4 @@
 import {
-    getArrowFun,
     getFun,
     getSymbol,
     getUndefined,
@@ -9,9 +8,7 @@ import {
 
 function getSwitch(type) {
     switch (type) {
-        case 'trueFunction':
-            return getArrowFun;
-        case 'falseFunction':
+        case 'Function':
             return getFun;
         case 'RegExp':
             return getRegExp

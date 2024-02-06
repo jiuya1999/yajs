@@ -3,33 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>yajs</title>
-    <script src="build/ya.min.js"></script>
+    <script src="build/@jiuya/ya.min.js"></script>
 </head>
 <body>
 <code style="white-space: pre-wrap">
     const obj = {
-        a: true,
-        b: [1, 2, obj.c, Symbol.for('apple')],
-        c: {
-            d: obj.b,
-            e: ({name, age}) => {
-                console.log(name, age)
-            },
-            h: (...arr) => {
-                console.log(arr)
-            }
-        },
-        f() {
-            const c = 3
-            console.log(1, this, this.a, c)
-        },
-        g: /123/g,
-        i: undefined,
-        j: null,
-        [Symbol.for('apple')]: Symbol.for('apple'),
-        [Symbol.for('pig')]: {
-            pig: 15
-        }
+    a: true,
+    b: [1, 2, obj.c, Symbol.for('apple')],
+    c: {
+    d: obj.b,
+    e: ({name, age}) => {
+    console.log(name, age)
+    },
+    h: (...arr) => {
+    console.log(arr)
+    }
+    },
+    f:(...a) => {
+    const c = 3
+    console.log(1, this, this.a, c)
+    },
+    g: /123/g,
+    i: undefined,
+    j: null,
+    [Symbol.for('apple')]: Symbol.for('apple'),
+    [Symbol.for('pig')]: {
+    pig: 15
+    }
     }
     const co = ya.string(obj)
     console.log(co, 'co')
@@ -49,7 +49,7 @@
                 console.log(arr)
             }
         },
-        f() {
+        f: (...a) => {
             const c = 3
             console.log(1, this, this.a, c)
         },
